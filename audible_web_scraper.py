@@ -2,9 +2,21 @@ import re
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import dotenv
+import os
+import DiscordWebHook
+
+dotenv.load_dotenv()
+
+user_4_code : str = os.environ.get('USER_4_CODE')
+
+for_sale : bool = False
+
+discord_webhook_token : str = os.environ.get('DISCORD_WEBHOOK_TOKEN')
+discord_webhook_id : str = os.environ.get('DISCORD_WEBHOOK_ID')
 
 # Define the URL of the web page you want to scrape
-url: str = 'https://www.audible.com/series/The-Primal-Hunter-Audiobooks/B09MZKWFTB'
+url : str = 'https://www.audible.com/series/The-Primal-Hunter-Audiobooks/B09MZKWFTB'
 
 # Configure the Chrome WebDriver options for a headless browser
 options = Options()
@@ -45,3 +57,12 @@ with webdriver.Chrome(options=options) as browser:
 
     except Exception as e:
         print("Error\n\n", e)
+
+for i in sorted_results:
+    if i == 'Primal Hunter 8':
+        DiscordWebHook.post_to_discord(['Phoenix'], 'Audible', ' '.join(sorted_results[i:i+100]), 'Probius')
+        for_sale = True
+        break
+
+if for_sale == False:
+    DiscordWebHook.post_to_discord(['Phoenix'], 'Audible', 'Nope', 'Probius')
