@@ -22,23 +22,23 @@ with webdriver.Chrome(options=options) as browser:
         soup = BeautifulSoup(page_source, 'lxml')
 
         # Extract text content from the parsed HTML
-        text = soup.get_text()
+        text : str = soup.get_text()
 
         # Clean up the text: remove newlines and replace multiple spaces with a single space
         text = text.replace('\n', '')
         text = re.sub(r'\s+', ' ', text)
 
         # Use regular expressions to find series titles (e.g., 'Primal Hunter 1')
-        results = re.findall(r'(Primal Hunter \d+)', text)
+        results : list = re.findall(r'(Primal Hunter \d+)', text)
 
         # Add the first book in the series to the results list
         results.append('Primal Hunter')
 
         # Remove duplicates by converting the list to a set and back to a list
-        unique_results = list(set(results))
+        unique_results : list = list(set(results))
 
         # Sort the unique series titles alphabetically
-        sorted_results = sorted(unique_results)
+        sorted_results : list = sorted(unique_results)
 
         # Print the sorted series titles
         print(sorted_results)
