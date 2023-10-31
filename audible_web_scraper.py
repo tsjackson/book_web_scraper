@@ -8,8 +8,6 @@ import DiscordWebHook
 
 dotenv.load_dotenv()
 
-user_4_code : str = os.environ.get('USER_4_CODE')
-
 for_sale : bool = False
 
 discord_webhook_token : str = os.environ.get('DISCORD_WEBHOOK_TOKEN')
